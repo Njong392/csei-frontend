@@ -1,0 +1,52 @@
+<template>
+    <main>
+        <!-- Avatar section-->
+        <section class="flex flex-col items-center gap-3 p-7">
+            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww"
+                class="h-50 w-50 rounded-full object-cover" alt="">
+
+            <span class="flex flex-col items-center">
+                <h1 class="text-3xl text-black font-semibold">Emy NJONG</h1>
+                <p class="text-sm text-blue">CSE001</p>
+            </span>
+        </section>
+
+
+        <section class="divide-y-2 bg-columbia p-7 rounded-t-4xl shadow-lg">
+            <!--Account Summary-->
+            <div>
+                <div v-for="rightMenuDetail in rightMenuDetails" :key="rightMenuDetail.label" class="mb-3">
+                    <div class="flex flex-col">
+                        <span class="flex items-center gap-2 text-gray">
+                            <font-awesome-icon :icon="rightMenuDetail.icon" class="text-xs" />
+                            <h1 class="text-sm">{{ rightMenuDetail.label }}</h1>
+                        </span>
+                        <h2 :class="rightMenuDetail?.class">{{ rightMenuDetail.data }}</h2>
+                    </div>
+                </div>
+            </div>
+
+
+            <!--User files, docs, attachments-->
+            <div class="mt-3">
+                <div v-for="rightMenuAction in rightMenuActions" :key="rightMenuAction.label"
+                    class="flex items-center gap-2 mb-3">
+                    <font-awesome-icon :icon="rightMenuAction.icon" class="text-gray text-xs" />
+                    <span class="text-sm">{{ rightMenuAction.label }}</span>
+
+                </div>
+            </div>
+
+
+        </section>
+
+
+    </main>
+</template>
+
+<script setup>
+import pageConfig from '@/config/pageConfig';
+
+const rightMenuDetails = pageConfig.rightMenuAccountDetails
+const rightMenuActions = pageConfig.rightMenuAccountActions
+</script>

@@ -1,6 +1,34 @@
 <template>
-  <h1 class="text-3xl font-bold underline">
-    Hello world 
-  </h1>
+  <div class="grid grid-cols-5">
+    <div class="col-span-1 bg-columbia">
+      <Sidebar />
+    </div>
+
+    <!-- Main content area-->
+    <div class="col-span-4">
+      <Navbar />
+
+      <!--Nested grid under navbar-->
+      <div class="grid grid-cols-4 bg-powder p-4 gap-2">
+        <span class="col-span-3 bg-white rounded-xl shadow-lg">
+          <Dashboard />
+        </span>
+
+        <span class="col-span-1 bg-white rounded-lg shadow-lg">
+          <Menu />
+        </span>
+
+      </div>
+
+    </div>
+  </div>
 </template>
+
+<script setup>
+import Sidebar from './components/layout/Sidebar.vue';
+import Navbar from './components/layout/Navbar.vue';
+import Dashboard from './pages/member/Dashboard.vue';
+import Menu from './components/layout/RightMenu.vue';
+
+</script>
 
