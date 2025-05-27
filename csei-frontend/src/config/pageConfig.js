@@ -3,18 +3,22 @@ const pageConfig = {
     {
       icon: "fa-solid fa-house",
       label: "Dashboard",
+      route: "/dashboard",
     },
     {
       icon: "fa-solid fa-user",
       label: "Biography",
+      route: "/biography",
     },
     {
       icon: "fa-solid fa-bell",
       label: "Announcements",
+      route: "/announcements",
     },
     {
       icon: "fa-solid fa-file",
       label: "Credit",
+      route: "/credit",
     },
   ],
 
@@ -22,10 +26,12 @@ const pageConfig = {
     {
       icon: "fa-solid fa-gear",
       label: "Settings",
+      route: "/settings",
     },
     {
       icon: "fa-solid fa-right-from-bracket",
       label: "Logout",
+      route: "/logout",
     },
   ],
 

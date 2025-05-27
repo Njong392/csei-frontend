@@ -3,7 +3,7 @@
     <main class="p-7">
         <!--Account Summary-->
         <section class="mb-14">
-            <h1 class="text-black font-medium text-3xl mb-4">Account Summary</h1>
+            <h1 class="text-black font-medium text-3xl mb-4 ">Account Summary</h1>
             <div class="flex gap-5">
                 <Card cardContent="-2,100,000" cardLabel="Account Balance" bgColor="bg-gray" textColor="text-white" />
                 <Card cardContent="1,500,000" cardLabel="Loan Total" bgColor="bg-blue" textColor="text-black" />
@@ -14,6 +14,7 @@
         <!--Transactions table-->
         <section>
             <h1 class="text-black font-medium text-3xl mb-4">Recent Transactions</h1>
+            <Ribbon />
 
             <Table :columns="tableColumns" :rows="tableRows">
                 <template #tableData="{rows}">
@@ -31,10 +32,11 @@
 </template>
 
 <script setup>
-import Card from '@/components/base/Card.vue';
-import Table from '@/components/base/Table.vue';
+import Card from '@/components/base/BaseCard.vue';
+import Table from '@/components/base/BaseTable.vue';
 import tableConfig from '@/config/tableConfig';
 import sampleData from '@/config/sampleData.json';
+import Ribbon from '@/components/layout/Ribbon.vue';
 
 const tableColumns = tableConfig.transactionTable.columns
 const tableRows = sampleData

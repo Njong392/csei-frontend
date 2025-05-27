@@ -2,13 +2,14 @@ import './assets/main.css'
 
 import { createApp } from 'vue'
 import App from './App.vue'
+import router from './router'
 
 /* import the fontawesome core */
 import { library } from '@fortawesome/fontawesome-svg-core'
 
 /* import font awesome icon component */
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faBell, faFile, faHouse, faUser, faGear, faRightFromBracket, faCaretDown, faEnvelope, faPhone, faCircleCheck, faLink, faDownload } from '@fortawesome/free-solid-svg-icons'
+import { faBell, faFile, faHouse, faUser, faGear, faRightFromBracket, faCaretDown, faEnvelope, faPhone, faCircleCheck, faLink, faDownload, faPen, faCaretLeft, faCaretRight, faFilter } from '@fortawesome/free-solid-svg-icons'
 
 
 /* add icons to the library */
@@ -24,6 +25,10 @@ library.add(faPhone)
 library.add(faCircleCheck)
 library.add(faLink)
 library.add(faDownload)
+library.add(faPen)
+library.add(faCaretLeft)
+library.add(faCaretRight)
+library.add(faFilter)
 
 
-createApp(App).component('font-awesome-icon', FontAwesomeIcon).mount('#app')
+createApp(App).component('font-awesome-icon', FontAwesomeIcon).use(router).mount('#app')

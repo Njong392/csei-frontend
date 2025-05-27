@@ -7,9 +7,10 @@
             </h1>
 
             <!--Page links-->
-            <div class="mt-8 text-xl text-black">
+            <div class="mt-8 text-xl flex flex-col gap-8">
                 <ul v-for="sidebarLink in sidebarLinks">
-                    <li class="p-3">
+                    <RouterLink :to="sidebarLink.route"
+                        :class="[isActiveLink(sidebarLink.route) ? 'text-blue' : 'text-black']">
                         <div class="flex gap-6">
                             <span>
                                 <font-awesome-icon :icon="sidebarLink.icon" />
@@ -19,16 +20,17 @@
                             </span>
                         </div>
 
-                    </li>
+                    </RouterLink>
 
                 </ul>
             </div>
         </main>
 
         <!--Menu footer-->
-        <div class="justify-end text-xl text-black">
+        <div class="justify-end text-xl flex flex-col gap-4">
             <ul v-for="sidebarFooterLink in sidebarFooterLinks">
-                <li class="p-2">
+                <RouterLink :to="sidebarFooterLink.route"
+                    :class="[isActiveLink(sidebarFooterLink.route) ? 'text-blue' : 'text-black']">
                     <div class="flex gap-6">
                         <span>
                             <font-awesome-icon :icon="sidebarFooterLink.icon" />
@@ -37,7 +39,7 @@
                             {{ sidebarFooterLink.label }}
                         </span>
                     </div>
-                </li>
+                </RouterLink>
 
             </ul>
         </div>
@@ -46,7 +48,15 @@
 
 <script setup>
 import pageConfig from '@/config/pageConfig';
+import { RouterLink, useRoute } from 'vue-router';
 
 const sidebarLinks = pageConfig.sidebarLinks
 const sidebarFooterLinks = pageConfig.sidebarFooterLinks
+
+const isActiveLink = (routePath) => {
+    const route = useRoute()
+    return route.path === routePath
+}
+
+
 </script>
