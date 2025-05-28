@@ -25,7 +25,31 @@ const tableConfig = {
         visibility: true,
         type: "text",
       },
-      
+    ],
+  },
+
+  memberTable: {
+    columns: [
+      {
+        key: "id",
+        label: "No",
+      },
+      {
+        key: "name",
+        label: "Nom",
+      },
+      {
+        key: "telephone",
+        label: "No telephone",
+      },
+      {
+        key: "modification",
+        label: "Date dern modification",
+      },
+      {
+        key: "solde",
+        label: "Solde",
+      },
     ],
   },
 };

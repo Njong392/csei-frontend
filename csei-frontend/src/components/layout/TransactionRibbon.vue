@@ -1,6 +1,6 @@
 <template>
     <div class="flex justify-between items-center mb-6">
-        <div class="border shadow-lg rounded-sm overflow-hidden">
+        <div class="border-blue border-2 shadow-lg rounded-sm overflow-hidden">
             <ul class="flex items-center divide-x-2 divide-gray-200 cursor-pointer">
                 <li class="px-3 py-1 text-blue bg-powder">All</li>
                 <li class="px-3 py-1">Succeeded</li>

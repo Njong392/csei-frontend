@@ -3,7 +3,7 @@
     <main class="p-7">
         <!--Account Summary-->
         <section class="mb-14">
-            <h1 class="text-black font-medium text-3xl mb-4 ">Account Summary</h1>
+            <h1 class="text-black font-medium text-3xl mb-4">Account Summary</h1>
             <div class="flex gap-5">
                 <Card cardContent="-2,100,000" cardLabel="Account Balance" bgColor="bg-gray" textColor="text-white" />
                 <Card cardContent="1,500,000" cardLabel="Loan Total" bgColor="bg-blue" textColor="text-black" />
@@ -16,16 +16,16 @@
             <h1 class="text-black font-medium text-3xl mb-4">Recent Transactions</h1>
             <Ribbon />
 
-            <Table :columns="tableColumns" :rows="tableRows">
+            <BaseTable :columns="tableColumns" :rows="tableRows">
                 <template #tableData="{rows}">
-                    <tr v-for="row in rows" :key="row.id">
+                    <tr v-for="row in rows" :key="row.key">
                         <template v-for="column in tableColumns" :key="column.key">
                             <td class="px-3 py-2 whitespace-nowrap">{{ row[column.key] }}</td>
                         </template>
                     </tr>
                 </template>
 
-            </Table>
+            </BaseTable>
         </section>
 
     </main>
@@ -33,13 +33,13 @@
 
 <script setup>
 import Card from '@/components/base/BaseCard.vue';
-import Table from '@/components/base/BaseTable.vue';
+import BaseTable from '@/components/base/BaseTable.vue';
 import tableConfig from '@/config/tableConfig';
-import sampleData from '@/config/sampleData.json';
-import Ribbon from '@/components/layout/Ribbon.vue';
+import transactionData from '@/config/transactionData.json';
+import Ribbon from '@/components/layout/TransactionRibbon.vue';
 
 const tableColumns = tableConfig.transactionTable.columns
-const tableRows = sampleData
+const tableRows = transactionData
 
 
 </script>

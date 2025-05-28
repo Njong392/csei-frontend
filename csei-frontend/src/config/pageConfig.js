@@ -56,6 +56,7 @@ const pageConfig = {
       icon: "fa-solid fa-circle-check",
       label: "Account status",
       data: "Active",
+      iconStyle: "text-green-800"
     },
   ],
 
@@ -69,6 +70,21 @@ const pageConfig = {
       label: "Download loan statement",
     },
   ],
+
+  biographyTableViews: [
+    {
+      icon: "fa-solid fa-list",
+      name: "Table",
+    },
+    {
+      icon: "fa-solid fa-grip",
+      name: "Tiles",
+    },
+    {
+      icon: "fa-solid fa-grip-vertical",
+      name: "Long tiles",
+    },
+  ]
 };
 
 export default pageConfig

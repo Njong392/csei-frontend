@@ -21,7 +21,7 @@
                 <div v-for="rightMenuDetail in rightMenuDetails" :key="rightMenuDetail.label" class="mb-3">
                     <div class="flex flex-col">
                         <span class="flex items-center gap-1 text-gray">
-                            <font-awesome-icon :icon="rightMenuDetail.icon" class="text-xs" />
+                            <font-awesome-icon :icon="rightMenuDetail.icon" class="text-xs" :class="rightMenuDetail?.iconStyle" />
                             <h1 class="text-sm">{{ rightMenuDetail.label }}</h1>
                         </span>
                         <h2 :class="rightMenuDetail?.class">{{ rightMenuDetail.data }}</h2>

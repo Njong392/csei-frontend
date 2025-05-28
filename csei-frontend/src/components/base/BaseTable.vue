@@ -4,7 +4,7 @@
             <thead class="ltr:text-left rtl:text-right">
                 <tr>
                     <template v-for="column in columns" key="column.key">
-                        <th class="px-3 py-2 whitespace-nowrap">{{ column.label }}</th>
+                        <th class="px-3 py-2 whitespace-nowrap font-semibold text-lg">{{ column.label }}</th>
                     </template>
                     
                 </tr>
