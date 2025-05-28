@@ -1,5 +1,5 @@
 <template>
-    <main>
+    <main class="flex flex-col h-full">
         <!-- Avatar section-->
         <section class="flex flex-col items-center gap-3 p-7">
             <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww"
@@ -15,7 +15,7 @@
         </section>
 
 
-        <section class="divide-y-2 bg-columbia p-7 rounded-t-3xl shadow-lg">
+        <section class="flex flex-col flex-1 divide-y-2 bg-columbia p-7 rounded-t-3xl shadow-lg">
             <!--Account Summary-->
             <div>
                 <div v-for="rightMenuDetail in rightMenuDetails" :key="rightMenuDetail.label" class="mb-3">
@@ -31,7 +31,7 @@
 
 
             <!--User files, docs, attachments-->
-            <div class="mt-3">
+            <div class="mt-2">
                 <div v-for="rightMenuAction in rightMenuActions" :key="rightMenuAction.label"
                     class="flex items-center gap-1 mb-3">
                     <font-awesome-icon :icon="rightMenuAction.icon" class="text-gray text-xs" />
