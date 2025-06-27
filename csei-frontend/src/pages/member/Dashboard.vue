@@ -5,27 +5,36 @@
         <section class="mb-14">
             <h1 class="text-black font-medium text-3xl mb-4">Account Summary</h1>
             <div class="flex gap-5">
-                <Card cardContent="-2,100,000" cardLabel="Account Balance" bgColor="bg-gray" textColor="text-white" />
-                <Card cardContent="1,500,000" cardLabel="Loan Total" bgColor="bg-blue" textColor="text-black" />
-                <Card cardContent="500,000" cardLabel="Loan Balance" bgColor="bg-black" textColor="text-white" />
+                <Card cardContent="0" cardLabel="Account Balance" bgColor="bg-gray" textColor="text-white" />
+                <Card cardContent="0" cardLabel="Loan Total" bgColor="bg-blue" textColor="text-black" />
+                <Card cardContent="0" cardLabel="Loan Balance" bgColor="bg-black" textColor="text-white" />
             </div>
         </section>
 
-        <!--Transactions table-->
         <section>
             <h1 class="text-black font-medium text-3xl mb-4">Recent Transactions</h1>
-            <Ribbon />
 
-            <BaseTable :columns="tableColumns" :rows="tableRows">
-                <template #tableData="{rows}">
-                    <tr v-for="row in rows" :key="row.key">
-                        <template v-for="column in tableColumns" :key="column.key">
-                            <td class="px-3 py-2 whitespace-nowrap">{{ row[column.key] }}</td>
-                        </template>
-                    </tr>
-                </template>
+            <div v-if="memberTransaction && memberTransaction[0] && !memberTransaction[0]['Document No']">
+                <p class="text-lg flex items-center justify-center">
+                    No transactions for this member yet
+                </p>
+            </div>
 
-            </BaseTable>
+            <div v-else>
+                <Ribbon />
+
+                <!--Transactions table-->
+                <BaseTable :columns="tableColumns" :rows="memberTransaction">
+                    <template #tableData="{ rows }">
+                        <tr v-for="row in rows" :key="row.key">
+                            <template v-for="column in tableColumns" :key="column.key">
+                                <td class="px-3 py-2 whitespace-nowrap">{{ row[column.key] }}</td>
+                            </template>
+                        </tr>
+                    </template>
+
+                </BaseTable>
+            </div>
         </section>
 
     </main>
@@ -37,9 +46,34 @@ import BaseTable from '@/components/base/BaseTable.vue';
 import tableConfig from '@/config/tableConfig';
 import transactionData from '@/config/transactionData.json';
 import Ribbon from '@/components/layout/TransactionRibbon.vue';
+import fetchWithCookies from '../../utils/fetchWrapper';
+import { useAuthStore } from '@/stores/UserAuth';
+import { onMounted, ref } from 'vue';
 
 const tableColumns = tableConfig.transactionTable.columns
-const tableRows = transactionData
+const memberTransaction = ref(null)
+const error = ref(null)
+const baseUrl = `${import.meta.env.VITE_API_URL}/members`;
+const auth = useAuthStore()
+
+const fetchMemberTransactions = async() => {
+        if(auth.isAuthenticated && auth.user){
+            try {
+                const res = await fetchWithCookies(`${baseUrl}/transaction-summary/${auth.user.member_id}`)
+                memberTransaction.value = res
+                console.log(memberTransaction.value)
+            } catch (err) {
+                error.value = err.message
+            } finally {
+                auth.isAuthResolved = true
+            }
+        }
+    
+}
+
+onMounted(() => {
+    fetchMemberTransactions()
+})
 
 
 </script>

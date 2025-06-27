@@ -45,12 +45,14 @@ const pageConfig = {
     {
       icon: "fa-solid fa-envelope",
       label: "Email",
-      data: "njongemy@gmail.com",
+      dataKey: "email",
+      fallback: "Not provided"
     },
     {
       icon: "fa-solid fa-phone",
       label: "Phone number",
-      data: "+237 6 96 96 96 96",
+      dataKey: "first_telephone_line",
+      fallback: "Not provided"
     },
     {
       icon: "fa-solid fa-circle-check",
@@ -84,7 +86,9 @@ const pageConfig = {
       icon: "fa-solid fa-grip-vertical",
       name: "Long tiles",
     },
-  ]
+  ],
+
+  loginRequiredFields: ["memberId", "password"],
 };
 
 export default pageConfig

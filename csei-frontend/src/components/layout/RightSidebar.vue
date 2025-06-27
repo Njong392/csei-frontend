@@ -1,5 +1,5 @@
 <template>
-    <main class="flex flex-col h-full">
+    <main class="flex flex-col h-full" v-if="auth.user">
         <!-- Avatar section-->
         <section class="flex flex-col items-center gap-3 p-7">
             <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww"
@@ -7,10 +7,10 @@
 
             <div class="flex flex-col items-center">
                 <span class="flex items-start gap-2">
-                    <h1 class="text-3xl text-black font-semibold">Emy NJONG</h1>
+                    <h1 class="text-3xl text-black font-semibold">{{ auth.user.member_name }}</h1>
                     <font-awesome-icon icon="fa-solid fa-pen" class="bg-gray p-1 rounded-full text-white text-xs cursor-pointer"/>
                 </span>
-                <p class="text-sm text-blue">CSE001</p>
+                <p class="text-sm text-blue">{{ auth.user.member_id }}</p>
             </div>
         </section>
 
@@ -49,7 +49,12 @@
 
 <script setup>
 import pageConfig from '@/config/pageConfig';
+import { useAuthStore } from '@/stores/UserAuth';
 
-const rightMenuDetails = pageConfig.rightMenuAccountDetails
 const rightMenuActions = pageConfig.rightMenuAccountActions
+const auth = useAuthStore()
+
+const rightMenuDetails = pageConfig.rightMenuAccountDetails.map(detail => ({
+    ...detail, data: detail.dataKey ? (auth.user?.[detail.dataKey] || detail.fallback || "") : detail.data
+}))
 </script>

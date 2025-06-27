@@ -9,8 +9,8 @@
         </div>
 
         <div class="flex gap-4 items-center">
-            <BaseInput type="text" placeholder="Search transactions..."
-                class="bg-powder text-sm px-3 py-2 rounded-sm shadow-xl outline-none" />
+            <BaseInput inputType="text" inputPlaceholder="Search transactions..."
+                inputStyle="bg-powder text-sm px-3 py-2 rounded-sm shadow-xl outline-none" />
 
             <font-awesome-icon icon="fa-solid fa-filter" class="text-gray text-2xl cursor-pointer" />
 

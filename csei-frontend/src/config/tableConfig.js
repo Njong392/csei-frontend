@@ -2,28 +2,39 @@ const tableConfig = {
   transactionTable: {
     columns: [
       {
-        key: "id",
-        label: "Id",
+        key: "description",
+        label: "Description",
         visibility: true,
-        type: "text",
       },
       {
-        key: "name",
+        key: "DocNo",
+        label: "Document Number",
+        visibility: true,
+      },
+      {
+        key: "externalDocNo",
+        label: "External Document Number",
+        visibility: true,
+      },
+      {
+        key: "openAmnt",
+        label: "Open Amount",
+        visibility: true,
+      },
+      {
+        key: "originalAmnt",
+        label: "Original Amount",
+        visibility: true,
+      },
+      {
+        key: "postingDate",
+        label: "Posting Date",
+        visibility: true,
+      },
+      {
+        key: "memberName",
         label: "Name",
         visibility: true,
-        type: "text",
-      },
-      {
-        key: "surname",
-        label: "Surname",
-        visibility: true,
-        type: "text",
-      },
-      {
-        key: "email",
-        label: "Email",
-        visibility: true,
-        type: "text",
       },
     ],
   },
