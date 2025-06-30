@@ -14,26 +14,34 @@
         <section>
             <h1 class="text-black font-medium text-3xl mb-4">Recent Transactions</h1>
 
-            <div v-if="memberTransaction && memberTransaction[0] && !memberTransaction[0]['Document No']">
-                <p class="text-lg flex items-center justify-center">
-                    No transactions for this member yet
-                </p>
+            <!--Skeleton screen for laoding-->
+            <div v-if="loading">
+                <TableSkeleton />
             </div>
 
+            <!--Table section-->
             <div v-else>
-                <Ribbon />
+                <div v-if="memberTransaction && memberTransaction[0] && !memberTransaction[0]['Document No']">
+                    <p class="text-lg flex items-center justify-center">
+                        No transactions for this member yet
+                    </p>
+                </div>
 
-                <!--Transactions table-->
-                <BaseTable :columns="tableColumns" :rows="memberTransaction">
-                    <template #tableData="{ rows }">
-                        <tr v-for="row in rows" :key="row.key">
-                            <template v-for="column in tableColumns" :key="column.key">
-                                <td class="px-3 py-2 whitespace-nowrap">{{ row[column.key] }}</td>
-                            </template>
-                        </tr>
-                    </template>
+                <div v-else>
+                    <Ribbon />
 
-                </BaseTable>
+                    <!--Transactions table-->
+                    <BaseTable :columns="tableColumns" :rows="memberTransaction">
+                        <template #tableData="{ rows }">
+                            <tr v-for="row in rows" :key="row.key">
+                                <template v-for="column in tableColumns" :key="column.key">
+                                    <td class="px-3 py-2 whitespace-nowrap">{{ row[column.key] }}</td>
+                                </template>
+                            </tr>
+                        </template>
+
+                    </BaseTable>
+                </div>
             </div>
         </section>
 
@@ -44,28 +52,30 @@
 import Card from '@/components/base/BaseCard.vue';
 import BaseTable from '@/components/base/BaseTable.vue';
 import tableConfig from '@/config/tableConfig';
-import transactionData from '@/config/transactionData.json';
 import Ribbon from '@/components/layout/TransactionRibbon.vue';
 import fetchWithCookies from '../../utils/fetchWrapper';
 import { useAuthStore } from '@/stores/UserAuth';
 import { onMounted, ref } from 'vue';
+import TableSkeleton from '@/components/skeleton/TableSkeleton.vue';
 
 const tableColumns = tableConfig.transactionTable.columns
 const memberTransaction = ref(null)
 const error = ref(null)
 const baseUrl = `${import.meta.env.VITE_API_URL}/members`;
 const auth = useAuthStore()
+const loading = ref(true)
 
 const fetchMemberTransactions = async() => {
         if(auth.isAuthenticated && auth.user){
+            loading.value = true
             try {
-                const res = await fetchWithCookies(`${baseUrl}/transaction-summary/${auth.user.member_id}`)
+                const res = await fetchWithCookies(`${baseUrl}/transaction-summary/${auth.user}`)
                 memberTransaction.value = res
-                console.log(memberTransaction.value)
+                //console.log(memberTransaction.value)
             } catch (err) {
                 error.value = err.message
             } finally {
-                auth.isAuthResolved = true
+                loading.value = false
             }
         }
     

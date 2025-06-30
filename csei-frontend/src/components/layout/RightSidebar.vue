@@ -1,5 +1,5 @@
 <template>
-    <main class="flex flex-col h-full" v-if="auth.user">
+    <main class="flex flex-col h-full" v-if="auth.user && memberData.member">
         <!-- Avatar section-->
         <section class="flex flex-col items-center gap-3 p-7">
             <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww"
@@ -7,10 +7,11 @@
 
             <div class="flex flex-col items-center">
                 <span class="flex items-start gap-2">
-                    <h1 class="text-3xl text-black font-semibold">{{ auth.user.member_name }}</h1>
-                    <font-awesome-icon icon="fa-solid fa-pen" class="bg-gray p-1 rounded-full text-white text-xs cursor-pointer"/>
+                    <h1 class="text-3xl text-black font-semibold">{{ memberData.member.member_name }}</h1>
+                    <font-awesome-icon icon="fa-solid fa-pen"
+                        class="bg-gray p-1 rounded-full text-white text-xs cursor-pointer" />
                 </span>
-                <p class="text-sm text-blue">{{ auth.user.member_id }}</p>
+                <p class="text-sm text-blue">{{ memberData.member.member_id }}</p>
             </div>
         </section>
 
@@ -20,11 +21,26 @@
             <div>
                 <div v-for="rightMenuDetail in rightMenuDetails" :key="rightMenuDetail.label" class="mb-3">
                     <div class="flex flex-col">
-                        <span class="flex items-center gap-1 text-gray">
-                            <font-awesome-icon :icon="rightMenuDetail.icon" class="text-xs" :class="rightMenuDetail?.iconStyle" />
-                            <h1 class="text-sm">{{ rightMenuDetail.label }}</h1>
-                        </span>
-                        <h2 :class="rightMenuDetail?.class">{{ rightMenuDetail.data }}</h2>
+                        <div v-if="rightMenuDetail.label === 'Click to copy referral link'">
+                            <span class="flex items-center gap-1 text-gray">
+                                <font-awesome-icon :icon="rightMenuDetail.icon" class="text-xs"
+                                    :class="rightMenuDetail?.iconStyle" />
+                                <h1 class="text-sm">{{ rightMenuDetail.label }}</h1>
+                            </span>
+                            <h2 :class="rightMenuDetail.class" class="cursor-pointer"
+                                @click="copyToClipboard(rightMenuDetail.data)">
+                                {{ rightMenuDetail.data }}
+                            </h2>
+                            <span v-if="copied" class="text-green-600 text-xs">Copied!</span>
+                        </div>
+                        <div v-else>
+                            <span class="flex items-center gap-1 text-gray">
+                                <font-awesome-icon :icon="rightMenuDetail.icon" class="text-xs"
+                                    :class="rightMenuDetail?.iconStyle" />
+                                <h1 class="text-sm">{{ rightMenuDetail.label }}</h1>
+                            </span>
+                            <h2 :class="rightMenuDetail?.class">{{ rightMenuDetail.data }}</h2>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -50,11 +66,38 @@
 <script setup>
 import pageConfig from '@/config/pageConfig';
 import { useAuthStore } from '@/stores/UserAuth';
+import { useMemberStore } from '@/stores/MemberData';
+import { computed, ref } from 'vue';
 
 const rightMenuActions = pageConfig.rightMenuAccountActions
 const auth = useAuthStore()
+const memberData = useMemberStore()
+const copied = ref(false)
 
-const rightMenuDetails = pageConfig.rightMenuAccountDetails.map(detail => ({
-    ...detail, data: detail.dataKey ? (auth.user?.[detail.dataKey] || detail.fallback || "") : detail.data
+const rightMenuDetails = computed(() => pageConfig.rightMenuAccountDetails.map(detail => {
+    let data = detail.dataKey
+        ? (memberData.member?.[detail.dataKey] || detail.fallback || "")
+        : detail.data;
+
+    // Dynamically replace ${memberId} in the referral link
+    if (typeof data === 'string' && data.includes('${memberId}')) {
+        data = data.replace('${memberId}', memberData.member?.member_id || '');
+    }
+
+    return {
+        ...detail,
+        data
+    }
 }))
+
+const copyToClipboard = (text) => {
+    navigator.clipboard.writeText(text).then(() => {
+        copied.value = true
+        setTimeout(() => copied.value = false, 1500)
+    })
+}
+
+
+
+
 </script>

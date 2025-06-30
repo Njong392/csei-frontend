@@ -1,5 +1,5 @@
 <template>
-    <div class="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8 font-poppins">
+    <div class="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8 font-poppins" >
         <div class="mx-auto max-w-lg">
             <h1 class="text-center text-2xl font-bold text-blue sm:text-3xl">
                 Welcome back!
@@ -24,7 +24,7 @@
                         <BaseInput inputType="text"
                             inputStyle="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
                             inputPlaceholder="Enter unique user code" v-model:inputValue="memberId"
-                            @input="() => {isFieldMissing = false; authStore.error = null}" />
+                            @input="() => {isFieldMissing = false; auth.error = null}" />
                     </div>
                 </div>
 
@@ -37,12 +37,12 @@
                         <BaseInput inputType="password"
                             inputStyle="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
                             inputPlaceholder="Enter password" v-model:inputValue="password"
-                            @input="isFieldMissing = false" />
+                            @input="isFieldMissing = false; auth.error = null" />
                     </div>
                 </div>
 
                 <p class="text-red-400 text-sm" v-if="isFieldMissing">Please fill in all fields</p>
-                <p class="text-red-400 text-sm" v-if="authStore.error">{{ authStore.error }}</p>
+                <p class="text-red-400 text-sm" v-if="auth.error">{{ auth.error }}</p>
                 <BaseButton buttonType="submit" buttonStyle="block w-full rounded-lg bg-blue px-5 py-3 text-sm font-medium text-snow
                 disabled:opacity-50 cursor-pointer">
                     <template #buttonLabel>
@@ -50,9 +50,9 @@
                     </template>
                 </BaseButton>
 
-                <p class="text-center text-sm text-lightgray">
-                    No account? Reach out to existing member for referral
-                </p>
+                <RouterLink to="/request-reset" class="text-center text-sm text-blue">
+                    Forgot password?
+                </RouterLink>
             </form>
         </div>
     </div>
@@ -65,12 +65,15 @@ import pageConfig from '@/config/pageConfig';
 import BaseButton from '@/components/base/BaseButton.vue';
 import { ref } from 'vue';
 import { useAuthStore } from '@/stores/UserAuth';
+import { useMemberStore } from '@/stores/MemberData';
+import { RouterLink } from 'vue-router';
 
 const memberId = ref('')
 const password = ref('')
 const requiredFields = pageConfig.loginRequiredFields
 const isFieldMissing = ref(false)
-const authStore = useAuthStore()
+const auth = useAuthStore()
+const memberStore = useMemberStore()
 
 const handleSubmit = async (e) => {
     e.preventDefault()
@@ -84,7 +87,12 @@ const handleSubmit = async (e) => {
         isFieldMissing.value = true;
         return;
     } else{
-        await authStore.login(body)
+        const memberId = await auth.login(body)
+        if(memberId){
+            await memberStore.fetchMember(memberId)
+        }
+
     }
 }
+
 </script>

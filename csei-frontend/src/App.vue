@@ -1,10 +1,6 @@
 <template>
   <div v-if="auth.isAuthResolved">
-    <div v-if="isLoginPage">
-      <RouterView />
-    </div>
-
-    <div v-else class="grid grid-cols-5">
+    <div class="grid grid-cols-5" v-if="isLayoutPage">
       <div class="col-span-1 bg-columbia">
         <Sidebar />
       </div>
@@ -28,11 +24,14 @@
 
       </div>
     </div>
+
+    <div v-else>
+    <RouterView />
+  </div>
   </div>
 
   <div v-else>
-    <p>Loading...</p>
-    
+    <DashboardSkeleton />
   </div>
 </template>
 
@@ -41,28 +40,22 @@ import Sidebar from './components/layout/LeftSidebar.vue';
 import Navbar from './components/layout/Navbar.vue';
 import Menu from './components/layout/RightSidebar.vue';
 import { RouterView, useRoute, useRouter } from 'vue-router';
-import { computed, watch } from 'vue';
+import { computed, onMounted, watch } from 'vue';
 import { useAuthStore } from './stores/UserAuth';
+import DashboardSkeleton from './components/skeleton/DashboardSkeleton.vue';
 
 const route = useRoute()
 const router = useRouter()
-const isLoginPage = computed(() => route.path === '/login')
+const isLayoutPage = computed(() => route.meta.requiresAuth);
 const auth = useAuthStore()
 
-// watch for auth resolution and redirect from root
-watch(
-  () => [auth.isAuthResolved, auth.isAuthenticated, route.path], ([resolved, authenticated, path]) => {
-    if(resolved && path === '/'){
-      if(authenticated){
-        router.replace('dashboard')
-       
-      } else{
-        router.replace('login')
-      }
-    }
-  },
-  { immediate: true }
-)
+onMounted(() => {
+  if(!auth.isAuthResolved){
+    auth.checkAuth()
+  }
+})
+
+
 
 </script>
 

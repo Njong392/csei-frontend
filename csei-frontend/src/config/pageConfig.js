@@ -31,7 +31,7 @@ const pageConfig = {
     {
       icon: "fa-solid fa-right-from-bracket",
       label: "Logout",
-      route: "/logout",
+      action: "logout",
     },
   ],
 
@@ -40,25 +40,25 @@ const pageConfig = {
       icon: "fa-solid fa-link",
       label: "Click to copy referral link",
       class: "text-blue underline",
-      data: "https://csei.com/referral?code=cse001",
+      data: "http://localhost:5173/prospect?referralId=${memberId}",
     },
     {
       icon: "fa-solid fa-envelope",
       label: "Email",
       dataKey: "email",
-      fallback: "Not provided"
+      fallback: "Not provided",
     },
     {
       icon: "fa-solid fa-phone",
       label: "Phone number",
       dataKey: "first_telephone_line",
-      fallback: "Not provided"
+      fallback: "Not provided",
     },
     {
       icon: "fa-solid fa-circle-check",
       label: "Account status",
       data: "Active",
-      iconStyle: "text-green-800"
+      iconStyle: "text-green-800",
     },
   ],
 
@@ -89,6 +89,128 @@ const pageConfig = {
   ],
 
   loginRequiredFields: ["memberId", "password"],
+
+  prospectFormFields: [
+    {
+      label: "Full Name",
+      model: "prospectName",
+      type: "text",
+      placeholder: "Full Name",
+      class: "col-span-6 md:col-span-3",
+      optional: false,
+    },
+    {
+      label: "Date of Birth",
+      model: "dateOfBirth",
+      type: "date",
+      placeholder: "Date of Birth",
+      class: "col-span-6 md:col-span-3",
+      optional: false,
+    },
+    {
+      label: "First Address Line",
+      model: "firstAddressLine",
+      type: "text",
+      placeholder: "Address",
+      class: "col-span-6 md:col-span-3",
+      optional: true,
+    },
+    {
+      label: "Second Address Line",
+      model: "secondAddressLine",
+      type: "text",
+      placeholder: "Address",
+      class: "col-span-6 md:col-span-3",
+      optional: false,
+    },
+    {
+      label: "Country",
+      model: "country",
+      type: "text",
+      placeholder: "Country",
+      class: "col-span-6 md:col-span-3",
+      optional: false,
+    },
+    {
+      label: "City",
+      model: "city",
+      type: "text",
+      placeholder: "City",
+      class: "col-span-6 md:col-span-3",
+      optional: false,
+    },
+
+    {
+      label: "First Telephone Line",
+      model: "firstTelephoneLine",
+      type: "tel",
+      placeholder: "Phone",
+      class: "col-span-6",
+      optional: false,
+    },
+    {
+      label: "Second Telephone Line",
+      model: "secondTelephoneLine",
+      type: "text",
+      placeholder: "Address",
+      class: "col-span-6 md:col-span-3",
+      optional: true,
+    },
+    {
+      label: "Emergency Phone",
+      model: "emergencyPhonenumber",
+      type: "tel",
+      placeholder: "Emergency Phone",
+      class: "col-span-6 md:col-span-3",
+      optional: false,
+    },
+
+    {
+      label: "Email",
+      model: "email",
+      type: "email",
+      placeholder: "Email",
+      class: "col-span-6 md:col-span-3",
+      optional: false,
+    },
+    {
+      label: "Emergency Email",
+      model: "emergencyEmail",
+      type: "email",
+      placeholder: "Emergency Email ",
+      class: "col-span-6 md:col-span-3",
+      optional: true,
+    },
+    {
+      label: "Emergency Contact",
+      model: "emergencyContact",
+      type: "text",
+      placeholder: "Emergency Contact",
+      class: "col-span-6 md:col-span-3",
+      optional: false,
+    },
+    {
+      label: "Telegram",
+      model: "telegramContact",
+      type: "text",
+      placeholder: "Telegram",
+      class: "col-span-6 md:col-span-3",
+      optional: false,
+    },
+    {
+      label: "Monthly Commitment",
+      model: "monthlyCommitment",
+      type: "select",
+      class: "col-span-6",
+      optional: false,
+      options: [
+        { label: "25,000", value: 25000 },
+        { label: "50,000", value: 50000 },
+        { label: "75,000", value: 75000 },
+        { label: "100,000", value: 100000 },
+      ],
+    },
+  ],
 };
 
 export default pageConfig
