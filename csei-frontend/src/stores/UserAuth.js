@@ -27,7 +27,8 @@ export const useAuthStore = defineStore("auth", {
         });
 
         this.isAuthenticated = true;
-        this.user = memberId
+        await this.checkAuth()
+        //this.user = memberId
         this.isLoading = false;
         router.replace(this.returnUrl || "/dashboard");
         return this.user
@@ -59,7 +60,7 @@ export const useAuthStore = defineStore("auth", {
         this.isAuthenticated = true;
         if(this.user){
           const memberStore = useMemberStore()
-          await memberStore.fetchMember(this.user)
+          await memberStore.fetchMember(this.user.memberId)
         }
       } catch {
         this.user = null;

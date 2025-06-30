@@ -1,9 +1,9 @@
 <template>
-    <main class="flex flex-col h-full" v-if="auth.user && memberData.member">
+    <main class="flex flex-col h-full" v-if="auth.user.memberId && memberData.member">
         <!-- Avatar section-->
         <section class="flex flex-col items-center gap-3 p-7">
-            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww"
-                class="h-50 w-50 rounded-full object-cover" alt="">
+            <img src="https://static.vecteezy.com/system/resources/thumbnails/020/765/399/small_2x/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg"
+                class="h-50 w-50 rounded-full object-cover border border-columbia" alt="">
 
             <div class="flex flex-col items-center">
                 <span class="flex items-start gap-2">

@@ -66,10 +66,10 @@ const auth = useAuthStore()
 const loading = ref(true)
 
 const fetchMemberTransactions = async() => {
-        if(auth.isAuthenticated && auth.user){
+        if(auth.isAuthenticated && auth.user.memberId){
             loading.value = true
             try {
-                const res = await fetchWithCookies(`${baseUrl}/transaction-summary/${auth.user}`)
+                const res = await fetchWithCookies(`${baseUrl}/transaction-summary/${auth.user.memberId}`)
                 memberTransaction.value = res
                 //console.log(memberTransaction.value)
             } catch (err) {

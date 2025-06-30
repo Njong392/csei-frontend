@@ -87,11 +87,8 @@ const handleSubmit = async (e) => {
         isFieldMissing.value = true;
         return;
     } else{
-        const memberId = await auth.login(body)
-        if(memberId){
-            await memberStore.fetchMember(memberId)
-        }
-
+        await auth.login(body)
+        
     }
 }
 

@@ -39,13 +39,12 @@
 import Sidebar from './components/layout/LeftSidebar.vue';
 import Navbar from './components/layout/Navbar.vue';
 import Menu from './components/layout/RightSidebar.vue';
-import { RouterView, useRoute, useRouter } from 'vue-router';
-import { computed, onMounted, watch } from 'vue';
+import { RouterView, useRoute } from 'vue-router';
+import { computed, onMounted} from 'vue';
 import { useAuthStore } from './stores/UserAuth';
 import DashboardSkeleton from './components/skeleton/DashboardSkeleton.vue';
 
 const route = useRoute()
-const router = useRouter()
 const isLayoutPage = computed(() => route.meta.requiresAuth);
 const auth = useAuthStore()
 
