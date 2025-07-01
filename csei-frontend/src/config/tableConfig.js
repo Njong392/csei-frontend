@@ -42,25 +42,24 @@ const tableConfig = {
   memberTable: {
     columns: [
       {
-        key: "id",
-        label: "No",
+        key: "memberId",
+        label: "Member ID",
+        visibility: true,
       },
       {
-        key: "name",
-        label: "Nom",
+        key: "memberName",
+        label: "Member Name",
+        visibility: true,
       },
       {
-        key: "telephone",
-        label: "No telephone",
+        key: "firstTelephoneLine",
+        label: "Telephone",
+        visibility: true,
       },
       {
-        key: "modification",
-        label: "Date dern modification",
-      },
-      {
-        key: "solde",
-        label: "Solde",
-      },
+        key: "accountBalance",
+        label: "Account Balance",
+      }
     ],
   },
 };

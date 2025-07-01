@@ -9,7 +9,8 @@ const filterUserFields = (user) => {
         first_address_line,
         member_id,
         member_name,
-        role
+        role,
+        balance
     } = user || {}
 
     return {
@@ -23,6 +24,7 @@ const filterUserFields = (user) => {
       member_id,
       member_name,
       role,
+      balance
     }; 
 }
 

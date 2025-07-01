@@ -5,7 +5,7 @@
         <section class="mb-14">
             <h1 class="text-black font-medium text-3xl mb-4">Account Summary</h1>
             <div class="flex gap-5">
-                <Card cardContent="0" cardLabel="Account Balance" bgColor="bg-gray" textColor="text-white" />
+                <Card :cardContent="memberData.member.balance" cardLabel="Account Balance" bgColor="bg-gray" textColor="text-white" />
                 <Card cardContent="0" cardLabel="Loan Total" bgColor="bg-blue" textColor="text-black" />
                 <Card cardContent="0" cardLabel="Loan Balance" bgColor="bg-black" textColor="text-white" />
             </div>
@@ -55,11 +55,13 @@ import tableConfig from '@/config/tableConfig';
 import Ribbon from '@/components/layout/TransactionRibbon.vue';
 import fetchWithCookies from '../../utils/fetchWrapper';
 import { useAuthStore } from '@/stores/UserAuth';
+import { useMemberStore } from '@/stores/MemberData';
 import { onMounted, ref } from 'vue';
 import TableSkeleton from '@/components/skeleton/TableSkeleton.vue';
 
 const tableColumns = tableConfig.transactionTable.columns
 const memberTransaction = ref(null)
+const memberData = useMemberStore()
 const error = ref(null)
 const baseUrl = `${import.meta.env.VITE_API_URL}/members`;
 const auth = useAuthStore()
