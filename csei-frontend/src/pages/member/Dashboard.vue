@@ -5,9 +5,10 @@
         <section class="mb-14">
             <h1 class="text-black font-medium text-3xl mb-4">Account Summary</h1>
             <div class="flex gap-5">
-                <Card :cardContent="memberData.member.balance" cardLabel="Account Balance" bgColor="bg-gray" textColor="text-white" />
-                <Card cardContent="0" cardLabel="Loan Total" bgColor="bg-blue" textColor="text-black" />
-                <Card cardContent="0" cardLabel="Loan Balance" bgColor="bg-black" textColor="text-white" />
+                <Card :cardContent="formatAmount(memberData.member.balance)" cardLabel="Account Balance" bgColor="bg-gray" textColor="text-white" />
+                
+                <Card cardContent="0" cardLabel="Loan Total" bgColor="bg-blue shadow-lg" textColor="text-black" />
+                <Card cardContent="0" cardLabel="Loan Balance" bgColor="bg-black shadow-lg" textColor="text-white" />
             </div>
         </section>
 
@@ -58,6 +59,8 @@ import { useAuthStore } from '@/stores/UserAuth';
 import { useMemberStore } from '@/stores/MemberData';
 import { onMounted, ref } from 'vue';
 import TableSkeleton from '@/components/skeleton/TableSkeleton.vue';
+import formatAmount from '@/utils/formatAmount';
+import Tiles from '@/components/layout/Tiles.vue';
 
 const tableColumns = tableConfig.transactionTable.columns
 const memberTransaction = ref(null)
