@@ -20,6 +20,11 @@ const pageConfig = {
       label: "Credit",
       route: "/credit",
     },
+    {
+      icon: "fa-solid fa-folder",
+      label: "Prospects",
+      route: "/prospect-applications",
+    },
   ],
 
   sidebarFooterLinks: [

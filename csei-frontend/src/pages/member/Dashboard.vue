@@ -5,9 +5,10 @@
         <section class="mb-14">
             <h1 class="text-black font-medium text-3xl mb-4">Account Summary</h1>
             <div class="flex gap-5">
-                <Card cardContent="0" cardLabel="Account Balance" bgColor="bg-gray" textColor="text-white" />
-                <Card cardContent="0" cardLabel="Loan Total" bgColor="bg-blue" textColor="text-black" />
-                <Card cardContent="0" cardLabel="Loan Balance" bgColor="bg-black" textColor="text-white" />
+                <Card :cardContent="formatAmount(memberData.member.balance)" cardLabel="Account Balance" bgColor="bg-gray" textColor="text-white" />
+                
+                <Card cardContent="0" cardLabel="Loan Total" bgColor="bg-blue shadow-lg" textColor="text-black" />
+                <Card cardContent="0" cardLabel="Loan Balance" bgColor="bg-black shadow-lg" textColor="text-white" />
             </div>
         </section>
 
@@ -55,21 +56,25 @@ import tableConfig from '@/config/tableConfig';
 import Ribbon from '@/components/layout/TransactionRibbon.vue';
 import fetchWithCookies from '../../utils/fetchWrapper';
 import { useAuthStore } from '@/stores/UserAuth';
+import { useMemberStore } from '@/stores/MemberData';
 import { onMounted, ref } from 'vue';
 import TableSkeleton from '@/components/skeleton/TableSkeleton.vue';
+import formatAmount from '@/utils/formatAmount';
+import Tiles from '@/components/layout/Tiles.vue';
 
 const tableColumns = tableConfig.transactionTable.columns
 const memberTransaction = ref(null)
+const memberData = useMemberStore()
 const error = ref(null)
 const baseUrl = `${import.meta.env.VITE_API_URL}/members`;
 const auth = useAuthStore()
 const loading = ref(true)
 
 const fetchMemberTransactions = async() => {
-        if(auth.isAuthenticated && auth.user){
+        if(auth.isAuthenticated && auth.user.memberId){
             loading.value = true
             try {
-                const res = await fetchWithCookies(`${baseUrl}/transaction-summary/${auth.user}`)
+                const res = await fetchWithCookies(`${baseUrl}/transaction-summary/${auth.user.memberId}`)
                 memberTransaction.value = res
                 //console.log(memberTransaction.value)
             } catch (err) {

@@ -10,7 +10,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 
 /* import font awesome icon component */
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faBell, faFile, faHouse, faUser, faGear, faRightFromBracket, faCaretDown, faEnvelope, faPhone, faCircleCheck, faLink, faDownload, faPen, faCaretLeft, faCaretRight, faFilter, faList, faGrip, faGripVertical } from '@fortawesome/free-solid-svg-icons'
+import { faBell, faFile, faHouse, faUser, faGear, faRightFromBracket, faCaretDown, faEnvelope, faPhone, faCircleCheck, faLink, faDownload, faPen, faCaretLeft, faCaretRight, faFilter, faList, faGrip, faGripVertical, faFolder } from '@fortawesome/free-solid-svg-icons'
 
 
 /* add icons to the library */
@@ -33,6 +33,7 @@ library.add(faFilter)
 library.add(faList)
 library.add(faGrip)
 library.add(faGripVertical)
+library.add(faFolder)
 
 
 createApp(App).component('font-awesome-icon', FontAwesomeIcon).use(createPinia()).use(router).mount('#app')
