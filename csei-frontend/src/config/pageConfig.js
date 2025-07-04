@@ -45,7 +45,7 @@ const pageConfig = {
       icon: "fa-solid fa-link",
       label: "Click to copy referral link",
       class: "text-blue underline",
-      data: "http://localhost:5173/prospect?referralId=${memberId}",
+      data: "http://localhost:3001/prospect?referralId=${memberId}",
     },
     {
       icon: "fa-solid fa-envelope",

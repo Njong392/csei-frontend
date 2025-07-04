@@ -1,18 +1,26 @@
 <template>
     <main class="mt-4 p-4">
-        <BiographyRibbon :currentViewIndex="currentViewIndex" :tableViews="tableViews" :onToggleView="toggleView" />
-
+        <BiographyRibbon :currentViewIndex="currentViewIndex" :tableViews="tableViews" :onToggleView="toggleView" :searchQuery="searchQuery" @update:searchQuery="handleSearch" />
         <div>
            
-            <component :is="currentViewComponent" :columns="tableColumns" :rows="tableRows" class="mt-7">
+            <component :is="currentViewComponent" :columns="tableColumns" :rows="filteredRows" class="mt-7">
                 <template v-if="currentViewIndex === 0" #tableData="{ rows }">
-                    <tr v-for="row in rows" :key="row.id">
-                        <template v-for="column in tableColumns" :key="column.key">
-                            <td class="px-3 py-2 whitespace-nowrap">{{ row[column.key] }}</td>
-                        </template>
+                    <tr v-for="member in rows" :key="member.memberId" class="hover:bg-gray-50 cursor-pointer">
+                        <td class="px-3 py-4 whitespace-nowrap">
+                            <div class="font-medium text-deepgray">{{ member.memberName }}</div>
+                        </td>
+                        <td class="px-3 py-4 whitespace-nowrap text-sm text-lightgray">
+                            {{ member.memberId }}
+                        </td>
+                        <td class="px-3 py-4 whitespace-nowrap text-sm text-lightgray">
+                            {{ member.firstTelephoneLine }}
+                        </td>
+                        <td class="px-3 py-4 whitespace-nowrap text-sm">
+                            <span class="font-medium">{{ member.accountBalance }}</span>
+                            <span class="text-xs text-gray"> FCFA</span>
+                        </td>
                     </tr>
                 </template>
-
             </component>
         </div>
 
@@ -43,6 +51,11 @@ const auth = useAuthStore()
 const tableRows = ref(null)
 const tableViews = pageConfig.biographyTableViews
 const currentViewIndex = ref(0)
+const searchQuery = ref('')
+
+const handleSearch = (query) => {
+    searchQuery.value = query
+}
 
 const toggleView = () => {
     currentViewIndex.value = (currentViewIndex.value + 1) % tableViews.length;
@@ -73,6 +86,15 @@ const fetchAllMembers = async() => {
     }
 }
 
+const filteredRows = computed(() => {
+    if (!tableRows.value) return [];
+    if (!searchQuery.value) return tableRows.value;
+    const query = searchQuery.value.toLowerCase();
+    return tableRows.value.filter(member =>
+        member.memberName.toLowerCase().includes(query) ||
+        member.memberId.toLowerCase().includes(query) 
+    );
+});
 
 
 onMounted(() => {
