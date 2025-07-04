@@ -6,7 +6,8 @@ import Prospect from "@/pages/prospect/Prospect.vue";
 import ResetEmail from "@/pages/auth/ResetEmail.vue";
 import ResetPassword from "@/pages/auth/ResetPassword.vue";
 import NotFound from "@/pages/error/NotFound.vue";
-import ProspectApplicationTable from "@/pages/admin/ProspectApplicationTable.vue";
+import ProspectApplicationTable from "@/pages/admin/ProspectApplications.vue";
+import ProspectDetailView from "@/pages/admin/ProspectDetailView.vue";
 import { useAuthStore } from "@/stores/UserAuth";
 
 const router = createRouter({
@@ -34,7 +35,16 @@ const router = createRouter({
       component: ProspectApplicationTable,
       meta: {
         requiresAuth: true,
-        roles: ["admin"]
+        roles: ["admin"],
+      },
+    },
+    {
+      path: "/prospect-detail/:id",
+      name: "prospect-detail",
+      component: ProspectDetailView,
+      meta: {
+        requiresAuth: true,
+        roles: ["admin"],
       },
     },
     {
@@ -94,7 +104,7 @@ router.beforeEach(async (to, from, next) => {
   }
 
   // role based access for admin routes
-  if(to.meta.roles && (!auth.user || !to.meta.roles.includes(auth.user.role))){
+  if(to.meta.roles && (!auth.user || !to.meta.roles.includes(auth.user.role?.trim()))){
     return next("/404");
   }
 

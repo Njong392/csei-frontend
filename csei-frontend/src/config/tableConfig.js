@@ -59,7 +59,27 @@ const tableConfig = {
       {
         key: "accountBalance",
         label: "Account Balance",
-      }
+      },
+    ],
+  },
+
+  prospectApplications: {
+    columns: [
+      { key: "prospect_name", label: "Name" },
+      { key: "email", label: "Email" },
+      { key: "first_telephone_line", label: "Phone" },
+      { key: "monthly_commitment", label: "Monthly Commitment" },
+      { key: "prospect_status", label: "Status" },
+      { key: "created_at", label: "Applied Date" },
+      { key: "actions", label: "Actions" },
+    ],
+
+    statusOptions: [
+      { value: "all", label: "All Status" },
+      { value: "pending", label: "Pending" },
+      { value: "in-review", label: "In Review" },
+      { value: "approved", label: "Approved" },
+      { value: "rejected", label: "Rejected" },
     ],
   },
 };
