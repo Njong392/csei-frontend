@@ -41,6 +41,7 @@ import { onMounted, ref, computed } from 'vue';
 import formatAmount from '@/utils/formatAmount';
 import pageConfig from '@/config/pageConfig';
 import Tiles from '@/components/layout/Tiles.vue';
+import TallTiles from '@/components/layout/TallTiles.vue';
 
 const tableColumns = tableConfig.memberTable.columns
 //const tableRows = memberData
@@ -64,6 +65,7 @@ const toggleView = () => {
 const currentViewComponent = computed(() => {
     if(currentViewIndex.value === 0) return BaseTable
     if(currentViewIndex.value === 1) return Tiles
+    if(currentViewIndex.value === 2) return TallTiles
     return BaseTable
 })
 

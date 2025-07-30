@@ -47,6 +47,71 @@
                             </div>
                         </template>
 
+                        <div class="col-span-6 md:col-span-3">
+                            <label class="block font-medium text-deepgray mb-2">
+                                Upload National ID Card <span class="text-red-500">*</span>
+                            </label>
+                            <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue transition-colors cursor-pointer"
+                                :class="{ 'border-blue bg-blue-50': idDragOver }" @click="idFileInput.value.click()"
+                                @dragover.prevent="idDragOver = true" @dragleave="idDragOver = false"
+                                @drop.prevent="handleFileDrop(e, idDragOver, idFile, error)">
+                                <input ref="idFileInput" type="file" accept=".pdf,.doc,.docx" @change="e => handleFileSelect(e, idFile, error)"
+                                    class="hidden" />
+
+                                <div v-if="!idFile">
+
+                                    <p class="text-lg font-medium text-deepgray">Drop your file here or click to browse
+                                    </p>
+                                    <p class="text-sm text-lightgray">PDF, DOC, DOCX up to 10MB</p>
+                                </div>
+
+                                <div v-else class="flex items-center justify-center gap-3">
+
+                                    <div>
+                                        <p class="font-medium text-deepgray">{{ idFile.name }}</p>
+                                        <p class="text-sm text-lightgray">{{ formatFileSize(idFile.size) }}</p>
+                                    </div>
+                                    <button type="button" @click.stop="removeFile(idFile)"
+                                        class="text-red-500 hover:text-red-700 text-xs">
+                                        Remove
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class=" col-span-6 md:col-span-3">
+                            <label class="block font-medium text-deepgray mb-2">
+                                Upload Proof of Admission Fees <span class="text-red-500">*</span>
+                            </label>
+                            <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue transition-colors cursor-pointer"
+                                :class="{ 'border-blue bg-blue-50': admissionDragOver }" @click="admissionFileInput.value.click()"
+                                @dragover.prevent="admissionDragOver = true" @dragleave="admissionDragOver = false"
+                                @drop.prevent="handleFileDrop(e, admissionDragOver, admissionFile, error)">
+                                <input ref="admissionFileInput" type="file" accept=".pdf,.doc,.docx" @change="e => handleFileSelect(e, admissionFile, error)"
+                                    class="hidden" />
+
+                                <div v-if="!admissionFile">
+
+                                    <p class="text-lg font-medium text-deepgray">Drop your file here or click to browse
+                                    </p>
+                                    <p class="text-sm text-lightgray">PDF, DOC, DOCX up to 10MB</p>
+                                </div>
+
+                                <div v-else class="flex items-center justify-center gap-3">
+
+                                    <div>
+                                        <p class="font-medium text-deepgray">{{ admissionFile.name }}</p>
+                                        <p class="text-sm text-lightgray">{{ formatFileSize(admissionFile.size) }}</p>
+                                    </div>
+                                    <button type="button" @click.stop="removeFile(admissionFile)"
+                                        class="text-red-500 hover:text-red-700 text-xs">
+                                        Remove
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+
                         <!-- Checkbox handled separately -->
                         <div class="col-span-6 flex items-center">
                             <input type="checkbox" id="swornStatement" name="swornStatement" class="mr-2"
@@ -81,24 +146,26 @@ import pageConfig from '@/config/pageConfig'
 import checkRequiredFields from '@/utils/validation'
 import fetchWithCookies from '@/utils/fetchWrapper'
 import { useRoute } from 'vue-router'
+import { formatFileSize } from '@/utils/fileUpload'
+import { handleFileSelect, handleFileDrop } from '@/utils/fileInputHandlers'
 
 const form = ref({
-  prospectName: '',
-  dateOfBirth: '',
-  firstAddressLine: '',
-  secondAddressLine: '',
-  city: '',
-  country: '',
-  firstTelephoneLine: '',
-  secondTelephoneLine: '',
-  email: '',
-  emergencyContact: '',
-  emergencyEmail: '',
-  emergencyPhonenumber: '',
-  telegramContact: '',
-  monthlyCommitment: null,
-  swornStatement: false,
-  telegramContact: '',
+    prospectName: '',
+    dateOfBirth: '',
+    firstAddressLine: '',
+    secondAddressLine: '',
+    city: '',
+    country: '',
+    firstTelephoneLine: '',
+    secondTelephoneLine: '',
+    email: '',
+    emergencyContact: '',
+    emergencyEmail: '',
+    emergencyPhonenumber: '',
+    telegramContact: '',
+    monthlyCommitment: null,
+    swornStatement: false,
+    telegramContact: '',
 })
 
 const fields = pageConfig.prospectFormFields
@@ -111,6 +178,12 @@ const isSuccess = ref(false)
 const baseUrl = `${import.meta.env.VITE_API_URL}/prospects`
 const route = useRoute()
 const referrerId = route.query.referrerId
+const idFile = ref(null)
+const admissionFile = ref(null)
+const idDragOver = ref(false)
+const admissionDragOver = ref(false)
+const idFileInput = ref(null)
+const admissionFileInput = ref(null)
 
 const handleSubmit = async (e) => {
     e.preventDefault()
@@ -120,22 +193,24 @@ const handleSubmit = async (e) => {
 
     // Validate required fields
     const missing = checkRequiredFields(form.value, requiredFields)
-    if(missing.length > 0){
+    if (missing.length > 0) {
         error.value = "Please fill in all required fields"
         isLoading.value = false
         return
     }
 
-    try{
-        await fetchWithCookies(baseUrl, "POST", {...form.value, referrerId, prospectStatus: 'pending'}, {withCredentials: false})
+    try {
+        await fetchWithCookies(baseUrl, "POST", { ...form.value, referrerId, prospectStatus: 'pending' }, { withCredentials: false })
         isSuccess.value = true
-    } catch(err){
+    } catch (err) {
         error.value = err.message
-    } finally{
+    } finally {
         isLoading.value = false
-        
+
     }
 
 }
+
+
 
 </script>

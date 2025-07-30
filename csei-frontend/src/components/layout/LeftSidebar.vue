@@ -8,21 +8,23 @@
 
             <!--Page links-->
             <div class="mt-8 text-xl flex flex-col gap-8">
-                <ul v-for="sidebarLink in sidebarLinks">
-                    <RouterLink :to="sidebarLink.route"
-                        :class="[isActiveLink(sidebarLink.route) ? 'text-blue' : 'text-black']">
-                        <div class="flex gap-6">
-                            <span>
-                                <font-awesome-icon :icon="sidebarLink.icon" />
-                            </span>
-                            <span>
-                                {{ sidebarLink.label }}
-                            </span>
-                        </div>
+                <template v-for="sidebarLink in sidebarLinks">
+                    <ul v-if="canView(sidebarLink)">
+                        <RouterLink :to="sidebarLink.route"
+                            :class="[isActiveLink(sidebarLink.route) ? 'text-blue' : 'text-black']">
+                            <div class="flex gap-6">
+                                <span>
+                                    <font-awesome-icon :icon="sidebarLink.icon" />
+                                </span>
+                                <span>
+                                    {{ sidebarLink.label }}
+                                </span>
+                            </div>
 
-                    </RouterLink>
+                        </RouterLink>
 
-                </ul>
+                    </ul>
+                </template>
             </div>
         </main>
 
@@ -40,7 +42,8 @@
                         </span>
                     </button>
                     <!--Log out prompt box-->
-                    <LogoutPrompt v-if="showLogoutPrompt && sidebarFooterLink.action === 'logout'" @close="closeLogoutPrompt" @confirm="confirmLogout" />
+                    <LogoutPrompt v-if="showLogoutPrompt && sidebarFooterLink.action === 'logout'"
+                        @close="closeLogoutPrompt" @confirm="confirmLogout" />
                 </li>
                 <li v-else>
                     <RouterLink :to="sidebarFooterLink.route"
@@ -76,6 +79,17 @@ const isActiveLink = (routePath) => {
     const route = useRoute()
     return route.path === routePath
 }
+
+const canView = (link) => {
+    if(!link.roles){
+        return true
+    }
+    if(!auth.user || !auth.user.role){
+        return false
+    }
+    return link.roles.includes(auth.user.role.trim())
+}
+
 
 const handleAction = (action) => {
     if(action === 'logout'){
