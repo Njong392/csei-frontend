@@ -2,38 +2,23 @@ const tableConfig = {
   transactionTable: {
     columns: [
       {
-        key: "description",
+        key: "Description",
         label: "Description",
         visibility: true,
       },
       {
-        key: "DocNo",
+        key: "Document No_",
         label: "Document Number",
         visibility: true,
       },
       {
-        key: "externalDocNo",
-        label: "External Document Number",
-        visibility: true,
-      },
-      {
-        key: "openAmnt",
+        key: "Open Amount",
         label: "Open Amount",
         visibility: true,
       },
       {
-        key: "originalAmnt",
-        label: "Original Amount",
-        visibility: true,
-      },
-      {
-        key: "postingDate",
+        key: "Posting Date",
         label: "Posting Date",
-        visibility: true,
-      },
-      {
-        key: "memberName",
-        label: "Name",
         visibility: true,
       },
     ],
@@ -42,13 +27,13 @@ const tableConfig = {
   memberTable: {
     columns: [
       {
-        key: "memberId",
-        label: "Member ID",
+        key: "memberName",
+        label: "Member Name",
         visibility: true,
       },
       {
-        key: "memberName",
-        label: "Member Name",
+        key: "memberId",
+        label: "Member ID",
         visibility: true,
       },
       {
@@ -80,6 +65,41 @@ const tableConfig = {
       { value: "in-review", label: "In Review" },
       { value: "approved", label: "Approved" },
       { value: "rejected", label: "Rejected" },
+    ],
+  },
+};
+
+const loanTableConfig = {
+  adminLoanApplications: {
+    columns: [
+      { key: "loan_application_id", label: "Application ID" },
+      { key: "applicant_name", label: "Applicant" },
+      { key: "amount", label: "Amount" },
+      { key: "duration", label: "Duration" },
+      { key: "status", label: "Status" },
+      { key: "submitted_at", label: "Submitted" },
+      { key: "reviewed_at", label: "Reviewed" },
+      { key: "actions", label: "Actions" },
+    ],
+
+    statusOptions: [
+      { value: "all", label: "All Status" },
+      { value: "pending", label: "Pending" },
+      { value: "under_review", label: "Under Review" },
+      { value: "approved", label: "Approved" },
+      { value: "rejected", label: "Rejected" },
+      { value: "requires_more_info", label: "Requires More Info" },
+    ],
+  },
+
+  memberLoanApplications: {
+    columns: [
+      { key: "loan_application_id", label: "Application ID" },
+      { key: "amount", label: "Amount" },
+      { key: "duration", label: "Duration" },
+      { key: "status", label: "Status" },
+      { key: "submitted_at", label: "Submitted" },
+      { key: "actions", label: "Actions" },
     ],
   },
 };

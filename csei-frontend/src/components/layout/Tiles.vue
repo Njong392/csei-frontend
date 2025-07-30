@@ -4,9 +4,9 @@
             <div v-for="item in rows" :key="item.memberId" class="rounded-lg w-full shadow-sm p-5">
                 <div class="flex justify-between items-center">
                     <div class="flex gap-3 items-center">
-                        <span>
+                        <span class="h-10 w-10">
                             <img src="https://static.vecteezy.com/system/resources/thumbnails/020/765/399/small_2x/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg"
-                                class="h-15 w-15 rounded-full object-cover border border-columbia" alt="">
+                                alt="">
                         </span>
                         <span class="flex flex-col">
                             <p class="text-sm">{{ item.memberId }}</p>

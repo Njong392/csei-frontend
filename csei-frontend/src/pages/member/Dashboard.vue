@@ -5,8 +5,9 @@
         <section class="mb-14">
             <h1 class="text-black font-medium text-3xl mb-4">Account Summary</h1>
             <div class="flex gap-5">
-                <Card :cardContent="formatAmount(memberData.member.balance)" cardLabel="Account Balance" bgColor="bg-gray" textColor="text-white" />
-                
+                <Card :cardContent="formatAmount(memberData.member.balance)" cardLabel="Account Balance"
+                    bgColor="bg-gray" textColor="text-white" />
+
                 <Card cardContent="0" cardLabel="Loan Total" bgColor="bg-blue shadow-lg" textColor="text-black" />
                 <Card cardContent="0" cardLabel="Loan Balance" bgColor="bg-black shadow-lg" textColor="text-white" />
             </div>
@@ -22,7 +23,7 @@
 
             <!--Table section-->
             <div v-else>
-                <div v-if="memberTransaction && memberTransaction[0] && !memberTransaction[0]['Document No']">
+                <div v-if="!memberTransaction && !memberTransaction[0] && !memberTransaction[0]['Document No']">
                     <p class="text-lg flex items-center justify-center">
                         No transactions for this member yet
                     </p>
@@ -36,7 +37,9 @@
                         <template #tableData="{ rows }">
                             <tr v-for="row in rows" :key="row.key">
                                 <template v-for="column in tableColumns" :key="column.key">
-                                    <td class="px-3 py-2 whitespace-nowrap">{{ row[column.key] }}</td>
+                                    <td v-if="column.key === 'Open Amount'">{{ formatAmount(row[column.key]) }}</td>
+                                    <td v-else-if="column.key === 'Posting Date'">{{ formatDate(row[column.key]) }}</td>
+                                    <td v-else class="px-3 py-2 whitespace-nowrap">{{ row[column.key] }}</td>
                                 </template>
                             </tr>
                         </template>
@@ -60,7 +63,7 @@ import { useMemberStore } from '@/stores/MemberData';
 import { onMounted, ref } from 'vue';
 import TableSkeleton from '@/components/skeleton/TableSkeleton.vue';
 import formatAmount from '@/utils/formatAmount';
-import Tiles from '@/components/layout/Tiles.vue';
+import formatDate from '@/utils/formatDate';
 
 const tableColumns = tableConfig.transactionTable.columns
 const memberTransaction = ref(null)
@@ -76,7 +79,7 @@ const fetchMemberTransactions = async() => {
             try {
                 const res = await fetchWithCookies(`${baseUrl}/transaction-summary/${auth.user.memberId}`)
                 memberTransaction.value = res
-                //console.log(memberTransaction.value)
+                console.log(memberTransaction.value)
             } catch (err) {
                 error.value = err.message
             } finally {

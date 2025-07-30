@@ -8,6 +8,11 @@ import ResetPassword from "@/pages/auth/ResetPassword.vue";
 import NotFound from "@/pages/error/NotFound.vue";
 import ProspectApplicationTable from "@/pages/admin/ProspectApplications.vue";
 import ProspectDetailView from "@/pages/admin/ProspectDetailView.vue";
+import MyLoanApplications from "@/pages/member/MyLoanApplications.vue";
+import LoanApplicationForm from "@/pages/member/LoanApplicationForm.vue";
+import LoanDetailView from "@/pages/member/LoanDetailView.vue";
+import AdminLoanApplications from "@/pages/admin/AdminLoanApplications.vue";
+import AdminLoanDetail from "@/pages/admin/AdminLoanDetail.vue";
 import { useAuthStore } from "@/stores/UserAuth";
 
 const router = createRouter({
@@ -71,6 +76,48 @@ const router = createRouter({
       path: "/404",
       name: "not-found",
       component: NotFound,
+    },
+    {
+      path: "/loans",
+      name: "loans",
+      component: MyLoanApplications,
+      meta: {
+        requiresAuth: true,
+      },
+    },
+    {
+      path: "/loans/apply",
+      name: "loan-apply",
+      component: LoanApplicationForm,
+      meta: {
+        requiresAuth: true,
+      },
+    },
+    {
+      path: "/loans/:id",
+      name: "loan-detail",
+      component: LoanDetailView,
+      meta: {
+        requiresAuth: true,
+      },
+    },
+    {
+      path: "/admin/loans",
+      name: "admin-loans",
+      component: AdminLoanApplications,
+      meta: {
+        requiresAuth: true,
+        roles: ["admin"],
+      },
+    },
+    {
+      path: "/admin/loans/:id",
+      name: "admin-loan-detail",
+      component: AdminLoanDetail,
+      meta: {
+        requiresAuth: true,
+        roles: ["admin"],
+      },
     },
   ],
 });

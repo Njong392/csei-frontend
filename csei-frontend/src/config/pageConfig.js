@@ -10,29 +10,36 @@ const pageConfig = {
       label: "Biography",
       route: "/biography",
     },
-    {
-      icon: "fa-solid fa-bell",
-      label: "Announcements",
-      route: "/announcements",
-    },
-    {
-      icon: "fa-solid fa-file",
-      label: "Credit",
-      route: "/credit",
-    },
+    // {
+    //   icon: "fa-solid fa-bell",
+    //   label: "Announcements",
+    //   route: "/announcements",
+    // },
     {
       icon: "fa-solid fa-folder",
       label: "Prospects",
       route: "/prospect-applications",
+      roles: ['admin']
+    },
+    {
+      icon: "fa-solid fa-money-bill-wave",
+      label: "Loans",
+      route: "/loans",
+    },
+    {
+      icon: "fa-solid fa-money-bill-wave",
+      label: "Loan Applications",
+      route: "/admin/loans",
+      roles: ['admin']
     },
   ],
 
   sidebarFooterLinks: [
-    {
-      icon: "fa-solid fa-gear",
-      label: "Settings",
-      route: "/settings",
-    },
+    // {
+    //   icon: "fa-solid fa-gear",
+    //   label: "Settings",
+    //   route: "/settings",
+    // },
     {
       icon: "fa-solid fa-right-from-bracket",
       label: "Logout",
@@ -71,10 +78,6 @@ const pageConfig = {
     {
       icon: "fa-solid fa-download",
       label: "Download Account statement",
-    },
-    {
-      icon: "fa-solid fa-download",
-      label: "Download loan statement",
     },
   ],
 

@@ -49,15 +49,36 @@
             <!--User files, docs, attachments-->
             <div class="mt-2">
                 <div v-for="rightMenuAction in rightMenuActions" :key="rightMenuAction.label"
-                    class="flex items-center gap-1 mb-3">
-                    <font-awesome-icon :icon="rightMenuAction.icon" class="text-gray text-xs" />
-                    <span class="text-sm">{{ rightMenuAction.label }}</span>
+                    class="flex items-center gap-1 mb-3 cursor-pointer hover:bg-gray-200 p-2 rounded transition-colors"
+                    @click="handleActionClick(rightMenuAction)">
 
+                    <!-- Show spinner when downloading -->
+                    <font-awesome-icon v-if="isDownloading && rightMenuAction.label === 'Download Account statement'"
+                        icon="fa-solid fa-spinner" class="text-blue text-xs animate-spin" />
+                    <font-awesome-icon v-else :icon="rightMenuAction.icon" class="text-gray text-xs" />
+
+                    <span class="text-sm">{{ rightMenuAction.label }}</span>
                 </div>
             </div>
 
 
         </section>
+
+        <div v-if="downloadMessage" class="fixed bottom-4 right-4 z-50 max-w-sm">
+            <div :class="[
+                'p-4 rounded-lg shadow-lg border-l-4',
+                downloadMessage.type === 'success'
+                    ? 'bg-green-50 border-green-400 text-green-800'
+                    : 'bg-red-50 border-red-400 text-red-800'
+            ]">
+                <div class="flex items-center">
+                    <font-awesome-icon
+                        :icon="downloadMessage.type === 'success' ? 'fa-solid fa-check-circle' : 'fa-solid fa-exclamation-circle'"
+                        class="mr-2" />
+                    <p class="text-sm font-medium">{{ downloadMessage.message }}</p>
+                </div>
+            </div>
+        </div>
 
 
     </main>
@@ -68,11 +89,14 @@ import pageConfig from '@/config/pageConfig';
 import { useAuthStore } from '@/stores/UserAuth';
 import { useMemberStore } from '@/stores/MemberData';
 import { computed, ref } from 'vue';
+import { downloadAccountStatement } from '@/utils/downloadStatement';
 
 const rightMenuActions = pageConfig.rightMenuAccountActions
 const auth = useAuthStore()
 const memberData = useMemberStore()
 const copied = ref(false)
+const isDownloading = ref(false)
+const downloadMessage = ref(null)
 
 const rightMenuDetails = computed(() => pageConfig.rightMenuAccountDetails.map(detail => {
     let data = detail.dataKey
@@ -98,6 +122,36 @@ const copyToClipboard = (text) => {
 }
 
 
+const showMessage = (type, message) => {
+    downloadMessage.value = { type, message }
+    setTimeout(() => {
+        downloadMessage.value = null
+    }, 4000)
+}
 
+const handleActionClick = async (action) => {
+    if (action.label === 'Download Account statement') {
+        await downloadStatement()
+    } else if (action.label === 'Download loan statement') {
+        // TODO: Implement loan statement download later
+        showMessage('info', 'Loan statement download coming soon!')
+    }
+}
+
+const downloadStatement = async () => {
+    if (isDownloading.value) return // Prevent multiple downloads
+
+    isDownloading.value = true
+
+    try {
+        await downloadAccountStatement()
+        showMessage('success', 'Account statement downloaded successfully!')
+    } catch (error) {
+        console.error('Download failed:', error)
+        showMessage('error', 'Failed to download account statement. Please try again.')
+    } finally {
+        isDownloading.value = false
+    }
+}
 
 </script>
